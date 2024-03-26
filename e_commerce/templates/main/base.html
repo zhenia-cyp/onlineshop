@@ -59,7 +59,7 @@
                                 <li><a class="dropdown-item  text-white" href="carts/cart.html">Cart</a></li>
                                 <li><a class="dropdown-item  text-white" href="users/profile.html">My Account</a>
                                 </li>
-                                <li><a class="dropdown-item  text-white" href="#">Admin panel</a></li>
+                                <li><a class="dropdown-item  text-white" href="/admin/">Admin panel</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
@@ -88,13 +88,10 @@
                             height="16">
                     </button>
                     <ul class="dropdown-menu bg-dark" data-bs-theme="dark">
-                        <li><a class="dropdown-item text-white" href="goods/catalog.html">All Products</a></li>
-                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Kitchen</a></li>
-                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Bedroom</a></li>
-                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Living Room</a></li>
-                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Office</a></li>
-                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Furniture Hardware</a></li>
-                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Decor</a></li>
+                        {% for category in categories %}
+                            <li><a class="dropdown-item text-white" href="goods/catalog.html">{{category.name}}</a></li>
+                            
+                        {% endfor %}
                     </ul>
                 </div>
                 <!-- Cart icon, triggers the modal window -->
@@ -177,6 +174,7 @@
             <div class="row mt-1">
                 <div class="col-lg-2">
                    <!-- Empty block at your discretion -->
+                  
                 </div>
                 <div class="col-lg-10">
                     <!-- Content on the page -->
