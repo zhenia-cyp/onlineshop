@@ -5,8 +5,8 @@ from goods.models import Category
 
 def index(request):
 
-    categories = Category.objects.all()
-    return render(request, 'main/index.html', {'categories': categories})
+    # categories = Category.objects.all()
+    return render(request, 'main/index.html')
 
 
 def about(request):
