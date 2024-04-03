@@ -11,7 +11,7 @@
                         class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal1">
                 </div>
                 <div class="col-md-4 ">
-                    <p class="product_id mt-3">id: 002654</p>
+                    <p class="product_id mt-3">id: {{product.display_id}}</p>
                 </div>
                 <!-- Increase image in modal window -->
                 <div class="modal fade" id="imageModal1" tabindex="-1"
@@ -24,7 +24,7 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <img src="{% static 'deps/images/goods/set of tea table and three chairs.jpg' %}"
+                                <img src="{{product.image.url}}"
                                     class="img-fluid" alt="Image 1">
                             </div>
                         </div>
@@ -33,7 +33,7 @@
             </div>
             <!-- Product description -->
             <div class="card-body">
-                <p class="card-text">Price: <strong>{{product.price}} $</strong></p>
+                <p class="card-text">Price: <strong>{{product.sell_price}} $</strong></p>
                 <h5 class="card-title">{{product.name}}</h5>
                 <p class="card-text">{{product.description}}</p>
                 <a href="#" class="btn btn-dark add-to-cart">Add to cart</a>
