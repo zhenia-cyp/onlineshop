@@ -85,7 +85,7 @@
                 <div class="custom-shadow d-flex">
                     {% if goods.has_previous %}
                         <li class="page-item">
-                            <a class="page-link" href="/catalog/{{slug_url}}/{{goods.previous_page_number}}/" >Previous</a> 
+                            <a class="page-link" href="?page={{goods.previous_page_number}}" >Previous</a> 
                         </li>
                     {% else %}
                     <li class="page-item disabled">
@@ -96,13 +96,13 @@
                     {% for page in goods.paginator.page_range %}
                     {% if page >= goods.number|add:-2 and page <= goods.number|add:2 %}
                         <li class="page-item {% if goods.number == page %} active {% endif %}">
-                            <a class="page-link" href="/catalog/{{slug_url}}/{{page}}/"> {{ page }} </a></li>
+                            <a class="page-link" href="?page={{page}}"> {{ page }} </a></li>
                     {% endif %}       
                     {% endfor %}
                     
                     {% if goods.has_next %}
                         <li class="page-item">
-                            <a class="page-link" href="/catalog/{{slug_url}}/{{goods.next_page_number}}/" >Next</a> 
+                            <a class="page-link" href="?page={{goods.next_page_number}}" >Next</a> 
                         </li>
                     {% else %}
                     <li class="page-item disabled">
