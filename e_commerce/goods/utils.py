@@ -7,7 +7,6 @@ from django.contrib.postgres.search import (
 )
 
 
-
 def q_search(query):
     """Search by product ID"""
     if query.isdigit() and len(query) <= 5:
@@ -15,7 +14,6 @@ def q_search(query):
 
     words = query.split()
     vector = SearchVector("name", "description")
-
     query_list = [SearchQuery(word) for word in words]
 
     if len(query_list) > 1:
