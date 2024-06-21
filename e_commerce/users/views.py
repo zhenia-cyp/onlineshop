@@ -1,27 +1,29 @@
 from django.shortcuts import render
-from users.forms import UserLoginForm
-from django.contrib import auth
-from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse_lazy
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
+from django.views.generic import FormView
 
 
-def login(request):
-    if request.method == 'POST':
-        form = UserLoginForm(data=request.POST)
-        if form.is_valid():
-            username = request.POST['username']
-            password = request.POST['password']
-            user = auth.authenticate(username=username, password=password)
-            if user:
-                auth.login(request, user)
-                return HttpResponseRedirect(reverse('main:index'))
-    else:
-        form = UserLoginForm()
-    context = {
-        'title': 'Home - Authorization',
-        'form': form
-    }
-    return render(request, 'users/login.html', context)
+class LoginView(FormView):
+    form_class = AuthenticationForm
+    template_name = 'users/login.html'
+    success_url = reverse_lazy('main:index')
+
+    def form_valid(self, form):
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(self.request, user)
+            return super().form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Home - Authorization'
+        return context
 
 
 def registration(request):
