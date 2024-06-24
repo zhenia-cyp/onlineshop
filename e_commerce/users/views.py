@@ -5,10 +5,13 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import FormView
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from users.forms import UserRegistrationForm
+from users.forms import UserRegistrationForm, ProfileForm
 from django.contrib import auth
 from django.contrib.auth import login
 from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import UpdateView
+from django.contrib.auth.decorators import login_required
 
 
 class LoginView(FormView):
@@ -56,11 +59,25 @@ class RegistrationView(View):
         return render(request, self.template_name, context)
 
 
-def profile(request):
-    context = {}
-    return render(request, 'users/profile.html', context)
+class ProfileView(LoginRequiredMixin, UpdateView):
+    form_class = ProfileForm
+    template_name = 'users/profile.html'
+    success_url = reverse_lazy('user:profile')
+
+    def get_object(self):
+        return self.request.user
+
+    def form_valid(self, form):
+        form.save()
+        return redirect(self.get_success_url())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Home - My Profile'
+        return context
 
 
+@login_required
 def logout(request):
     auth.logout(request)
     return redirect(reverse('main:index'))
