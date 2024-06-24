@@ -77,8 +77,7 @@ class ProfileView(LoginRequiredMixin, UpdateView):
         return context
 
 
-@login_required
-def logout(request):
-    auth.logout(request)
-    return redirect(reverse('main:index'))
-    pass
+class LogoutView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        auth.logout(request)
+        return redirect(reverse_lazy('main:index'))
