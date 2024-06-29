@@ -11,7 +11,7 @@ from django.contrib.auth import login
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView
-from django.contrib.auth.decorators import login_required
+
 
 
 class LoginView(FormView):
@@ -81,3 +81,7 @@ class LogoutView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         auth.logout(request)
         return redirect(reverse_lazy('main:index'))
+
+
+def users_cart(request):
+    return render(request, 'users/users_cart.html')

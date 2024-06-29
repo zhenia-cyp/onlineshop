@@ -1,23 +1,20 @@
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static "deps/css/bootstrap/bootstrap.min.css" %}">
-    <link rel="stylesheet" href="{% static "deps/css/my_css.css" %}">
+    <link rel="stylesheet" href="{% static 'deps/css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'deps/css/my_css.css' %}">
    <!-- Style for the footer on the homepage -->
     {% block css %}
     
     {% endblock %}
     <!-- Favicons for different platforms -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static "deps/favicon/apple-touch-icon.png" %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static "deps/favicon/favicon-32x32.png" %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static "deps/favicon/favicon-16x16.png" %}">
-    <link rel="manifest" href="{% static "deps/favicon/site.webmanifest" %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'deps/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'deps/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'deps/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'deps/favicon/site.webmanifest' %}">
     <title>Home</title>
 </head>
 
@@ -45,7 +42,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link  text-white" href="carts/cart.html">Cart</a>
+                            <a class="nav-link  text-white" href="user/cart/">Cart</a>
                         </li>
                         {% if not user.is_authenticated %}
                             <li class="nav-item">
@@ -58,7 +55,7 @@
                                     My Profile
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item  text-white" href="carts/cart.html">Cart</a></li>
+                                    <li><a class="dropdown-item  text-white" href="">Cart</a></li>
                                     <li><a class="dropdown-item  text-white" href="{% url 'users:profile' %}">My Account</a>
                                     </li>
                                     {% if user.is_admin or user.is_staff %}
@@ -95,82 +92,11 @@
                     <ul class="dropdown-menu bg-dark" data-bs-theme="dark">
                         {% for category in categories %}
                             <li><a class="dropdown-item text-white" href="/catalog/{{category.slug}}">{{category.name}}</a></li>
-                            
                         {% endfor %}
                     </ul>
                 </div>
                 <!-- Cart icon, triggers the modal window -->
-                <div>
-                    <button type="button" class="btn btn-dark btn-secondary d-flex" id="modalButton"
-                        aria-expanded="false">
-                        <img class="mx-1" src="{% static 'deps/icons/basket2-fill.svg' %}" alt="Catalog Icon" width="24"
-                            height="24">
-                        <span id="goods-in-cart-count">0</span>
-                    </button>
-                </div>
-                <!-- Markup for the Shopping Cart Modal Window -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-scrollable">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <h3 class="text-center mb-4">Cart</h3>
-                                <div class="container" id="cart-items-container">
-                                  <!-- Shopping Cart Markup -->
-                                    <div class="card mb-3 text-bg-light shadow-lg">
-                                        <div class="card-header">
-                                            <h5 class="card-title">Items</h5>
-                                        </div>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">
-                                                <div class="row text-center">
-                                                    <div class="col p-0">
-                                                        <div class="input-group">
-                                                            <span class="input-group-btn">
-                                                                <button type="button" class="btn btn-dark btn-sm decrement"
-                                                                    data-cart-id="" data-cart-change-url="">-</button>
-                                                            </span>
-                                                            <input type="text" class="form-control number" value="1"
-                                                                readonly>
-                                                            <span class="input-group-btn">
-                                                                <button type="button" class="btn btn-dark btn-sm increment"
-                                                                    data-cart-id="" data-cart-change-url="">+</button>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col p-0">
-                                                        <p>x 100.00 = </p>
-                                                    </div>
-                                                    <div class="col p-0"><strong>100.00 $</strong></div>
-                                                    <div class="col p-0">
-                                                        <a href="#" class="remove-from-cart" data-cart-id="">
-                                                            <img class="mx-1" src="deps/icons/trash3-fill.svg"
-                                                                alt="Catalog Icon" width="16" height="16">
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="card mb-3 shadow-lg">
-                                        <div class="card-footer">
-                                            <p class="float-left">Order<strong>1</strong>Summary</p>
-                                            <h4 class="float-left"><strong>100.00 $</strong></h4>
-                                        </div>
-                                    </div>
-                                    <!-- The markup for the shopping cart is finished -->
-                                </div>
-                                <a class="btn btn-dark" href="orders/create_order.html">
-                                    Proceed to Checkout
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% block modal_cart %} {% endblock%}
                <!-- The markup of the modal window is finished -->
             </div>
         </div>
@@ -183,7 +109,7 @@
                 </div>
                 <div class="col-lg-10">
                     <!-- Content on the page -->
-                    {% include "includes/notifications.html" %}
+                    {% include 'includes/notifications.html' %}
                     {% block content %}
                     
                     {% endblock %}
