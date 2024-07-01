@@ -11,7 +11,7 @@ from django.contrib.auth import login
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView
-
+from carts.models import Cart
 
 
 class LoginView(FormView):
@@ -23,8 +23,11 @@ class LoginView(FormView):
         username = form.cleaned_data['username']
         password = form.cleaned_data['password']
         user = authenticate(username=username, password=password)
-        if user is not None:
+        session_key = self.request.session.session_key
+        if user:
             login(self.request, user)
+            if session_key:
+                Cart.objects.filter(session_key=session_key).update(user=user)
             return super().form_valid(form)
         else:
             return self.form_invalid(form)
@@ -47,7 +50,10 @@ class RegistrationView(View):
         form = self.form_class(data=request.POST)
         if form.is_valid():
             user = form.save()
+            session_key = request.session.session_key
             auth.login(request, user)
+            if session_key:
+                Cart.objects.filter(session_key=session_key).update(user=user)
             return HttpResponseRedirect(reverse('main:index'))
         return self.render_form(request, form)
 

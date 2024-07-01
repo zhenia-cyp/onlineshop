@@ -14,7 +14,8 @@ We are constantly adding new features, improving the design, and fixing bugs.
 At present, the project's functionality includes:
 
 - Displaying product catalog
-- Cart
+- Cart :
+  an anonymous user can also add items to the cart
 - Searching
 - Pagination
 - User registration and authentication
