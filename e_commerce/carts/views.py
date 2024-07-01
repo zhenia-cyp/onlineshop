@@ -1,6 +1,5 @@
 from goods.models import Product
 from carts.models import Cart
-from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from carts.utils import get_user_carts
 from django.http import JsonResponse
@@ -31,8 +30,23 @@ def cart_add(request):
 
     return JsonResponse(data)
 
-def cart_change(request, product_id):
-    pass
+def cart_change(request):
+    cart_id = request.POST.get("cart_id")
+    quantity = request.POST.get("quantity")
+    cart = Cart.objects.get(id=cart_id)
+    cart.quantity = quantity
+    cart.save()
+    updated_quantity = cart.quantity
+    user_cart = get_user_carts(request)
+    cart_items_html = render_to_string(
+        "carts/includes/included_cart.html", {"carts": user_cart}, request=request)
+    data = {
+        "message": "Quantity changed",
+        "cart_items_html": cart_items_html,
+        "quantity": updated_quantity,
+    }
+
+    return JsonResponse(data)
 
 def cart_remove(request):
     cart_id = request.POST.get("cart_id")
