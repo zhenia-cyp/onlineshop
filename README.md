@@ -22,7 +22,7 @@ At present, the project's functionality includes:
 
 ## Run the project using Docker
 
-git clone https://github.com/zhenia-cyp/onlineshop.git
+<span style="font-size: 12px;">git clone https://github.com/zhenia-cyp/onlineshop.git</span>
 
 <img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/screen1step.png" width="270"/>
 
