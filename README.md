@@ -24,7 +24,7 @@ At present, the project's functionality includes:
 
 <span style="font-size: 12px;">git clone https://github.com/zhenia-cyp/onlineshop.git</span>
 
-<img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/screenshot1.png" width="270"/>
+<img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/screenshot1.png" width="290"/>
 
 <img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/screen2step.png" width="270"/>
 
