@@ -22,23 +22,22 @@ At present, the project's functionality includes:
 
 ## Run the project using Docker
 
-git clone https://github.com/zhenia-cyp/onlineshop.git
+<span style="font-size: 12px;">git clone https://github.com/zhenia-cyp/onlineshop.git</span>
 
 <img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/screen1step.png" width="270"/>
 
 <img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/screen2step.png" width="270"/>
 
-<img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/screen3step.png" width="270"/>
+<img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/screen3step.png" width="200"/>
 
-<img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/screen4step.png" width="270"/>
+<img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/scren3step.png" width="370"/>
 
-<img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/screen5step.png" width="270"/>
+<img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/screen4step.png" width="370"/>
+
+<img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/screen5step.png" width="100"/>
 
 http://0.0.0.0:8000/
 
 Stop and remove containers:
 
 <img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/screen7step.png" width="270"/>
-
-
-
