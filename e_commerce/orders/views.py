@@ -65,7 +65,7 @@ def create_order(request):
         form = CreateOrderForm(initial=initial)
 
     context = {
-        'title': 'Home - Оформление заказа',
+        'title': 'Home - Order Review',
         'form': form,
         'order': True,
     }

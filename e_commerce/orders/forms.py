@@ -1,5 +1,5 @@
 from django import forms
-
+import re
 
 class CreateOrderForm(forms.Form):
 
@@ -19,3 +19,12 @@ class CreateOrderForm(forms.Form):
             ("1", 'True'),
             ],
         )
+
+    def clean_phone_number(self):
+        data = self.cleaned_data['phone_number']
+
+        pattern = re.compile(r'^\+?[1-9]\d{1,14}$')
+        if not pattern.match(data):
+            raise forms.ValidationError("Invalid phone number format")
+
+        return data

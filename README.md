@@ -19,6 +19,7 @@ At present, the project's functionality includes:
 - Searching
 - Pagination
 - User registration and authentication
+- Orders
 
 ## Run the project using Docker
 

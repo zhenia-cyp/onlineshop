@@ -12,6 +12,9 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView
 from carts.models import Cart
+from orders.models import Order, OrderItem
+from django.db.models import Prefetch
+
 
 
 class LoginView(FormView):
@@ -80,6 +83,13 @@ class ProfileView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Home - My Profile'
+        orders = Order.objects.filter(user=self.request.user).prefetch_related(
+            Prefetch(
+                "orderitem_set",
+                queryset=OrderItem.objects.select_related("product"),
+            )
+        ).order_by("-id")
+        context['orders'] = orders
         return context
 
 
