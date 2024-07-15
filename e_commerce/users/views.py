@@ -30,7 +30,10 @@ class LoginView(FormView):
         if user:
             login(self.request, user)
             if session_key:
-                Cart.objects.filter(session_key=session_key).update(user=user)
+                forgot_carts = Cart.objects.filter(user=user)
+                if forgot_carts.exists():
+                    forgot_carts.delete()
+            Cart.objects.filter(session_key=session_key).update(user=user)
             return super().form_valid(form)
         else:
             return self.form_invalid(form)
