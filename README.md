@@ -29,6 +29,8 @@ At present, the project's functionality includes:
 
 <img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/screen2step.png" width="270"/>
 
+<img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/screenshot%203.1.1%20.png" width="200"/>
+
 <img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/screen3step.png" width="200"/>
 
 <img src="https://github.com/zhenia-cyp/images-for-readme-files/blob/main/screenshots/scren3step.png" width="370"/>
