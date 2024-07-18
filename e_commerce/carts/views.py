@@ -38,7 +38,6 @@ def cart_add(request):
         "message": "Item add to cart",
         "cart_items_html": cart_items_html,
     }
-
     return JsonResponse(data)
 
 def cart_change(request):
@@ -50,7 +49,6 @@ def cart_change(request):
     updated_quantity = cart.quantity
     user_cart = get_user_carts(request)
     context = {"carts": user_cart}
-    # if referer page is create_order add key orders: True to context
     referer = request.META.get('HTTP_REFERER')
     if reverse('orders:create_order') in referer:
         context["order"] = True
@@ -61,7 +59,6 @@ def cart_change(request):
         "cart_items_html": cart_items_html,
         "quantity": updated_quantity,
     }
-
     return JsonResponse(data)
 
 def cart_remove(request):
@@ -71,11 +68,9 @@ def cart_remove(request):
     cart.delete()
     user_cart = get_user_carts(request)
     context = {"carts": user_cart}
-    # if referer page is create_order add key orders: True to context
     referer = request.META.get('HTTP_REFERER')
     if reverse('orders:create_order') in referer:
         context["order"] = True
-
     cart_items_html = render_to_string(
         "carts/includes/included_cart.html", context, request=request)
     data = {
@@ -83,5 +78,4 @@ def cart_remove(request):
         "cart_items_html": cart_items_html,
         "quantity_deleted": quantity,
     }
-
     return JsonResponse(data)

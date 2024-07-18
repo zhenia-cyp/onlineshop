@@ -1,13 +1,16 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.views.generic import TemplateView
 
 
-def index(request):
+class IndexView(TemplateView):
+    template_name = 'main/index.html'
 
-    
-    return render(request, 'main/index.html')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['content'] = "Harmony Home Furnishings"
+        return context
 
-
-def about(request):
-
-    return render(request, 'main/about.html', {'about': "we are a good company"})
+class AboutView(TemplateView):
+    template_name = 'main/about.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

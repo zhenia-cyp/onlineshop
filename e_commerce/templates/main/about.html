@@ -3,7 +3,7 @@
 
 {% block css %}
 
-    <link rel="stylesheet" href="{% static "deps/css/my_footer_css.css" %}">
+    <link rel="stylesheet" href="{% static 'deps/css/my_footer_css.css' %}">
 
 {% endblock %}
 
@@ -12,9 +12,14 @@
 {% endblock  %}
 
 {% block content %}
-    <div class="mt-5 pt-5 bg-white custom-shadow rounded">
-        <h1 class="mt-5 pt-5"><strong> Harmony Home Furnishings</strong></h1>
-        <p>{{about}}</p>
+    <div class="d-flex justify-content-center align-items-center mt-5 pt-5">
+       <div class="mt-5 pt-5 bg-white custom-shadow rounded text-center p-4">
+        <p>Hello! My name is <strong>Ievgen Kviatkivskyi</strong> and I am an aspiring web developer.</p>
+        <p>I created this project for educational purposes to improve my skills in the Django framework,</p>
+        <p> as well as in frontend development, specifically in using Bootstrap for layout.</p>
+        <p>If you like my pet project, you can contact me via <a href="https://www.linkedin.com/in/ievgen-kviatkivskyi/" target="_blank">LinkedIn</a></p>
+        <p>and I can create a similar online store for you, customized to suit your business.</p>
+       </div>
     </div>
 {% endblock %}
 
