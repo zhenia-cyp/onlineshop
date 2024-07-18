@@ -27,3 +27,14 @@ services:
       - ./db_data:/var/lib/postgresql/data
     env_file:
       - .env
+
+  test:
+    build: .
+    command: pytest
+    depends_on:
+      - db
+    env_file:
+      - .env
+    volumes:
+      - ./e_commerce:/app/
+
