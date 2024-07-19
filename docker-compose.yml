@@ -29,6 +29,7 @@ services:
       - .env
 
   test:
+    container_name: pytest
     build: .
     command: pytest
     depends_on:

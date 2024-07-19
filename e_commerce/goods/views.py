@@ -3,6 +3,7 @@ from django.shortcuts import render,  get_list_or_404
 from goods.utils import q_search
 from goods.models import Product
 from django.http import Http404
+from django.views.generic import DetailView
 
 
 def catalog(request, category_slug=None):
@@ -37,8 +38,19 @@ def catalog(request, category_slug=None):
     return render(request, 'goods/catalog.html', context)
 
 
-def product(request, slug=None):
+class ProductView(DetailView):
+    template_name = "goods/product.html"
+    context_object_name = "product"
 
-    if slug:
-        product = Product.objects.get(slug=slug)
-        return render(request, 'goods/product.html', {'product': product})
+    def get_object(self, *args, **kwargs):
+        product_slug = self.kwargs.get('slug')
+        if product_slug:
+            try:
+                return Product.objects.get(slug=product_slug)
+            except Product.DoesNotExist:
+                raise Http404
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = self.object.name
+        return context
