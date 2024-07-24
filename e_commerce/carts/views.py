@@ -63,21 +63,23 @@ class CartChangeView(View):
         }
         return JsonResponse(data)
 
-def cart_remove(request):
-    cart_id = request.POST.get("cart_id")
-    cart = Cart.objects.get(id=cart_id)
-    quantity = cart.quantity
-    cart.delete()
-    user_cart = get_user_carts(request)
-    context = {"carts": user_cart}
-    referer = request.META.get('HTTP_REFERER')
-    if reverse('orders:create_order') in referer:
-        context["order"] = True
-    cart_items_html = render_to_string(
-        "carts/includes/included_cart.html", context, request=request)
-    data = {
-        "message": "Item removed",
-        "cart_items_html": cart_items_html,
-        "quantity_deleted": quantity,
-    }
-    return JsonResponse(data)
+
+class CartRemoveView(View):
+    def post(self, request):
+        cart_id = request.POST.get("cart_id")
+        cart = Cart.objects.get(id=cart_id)
+        quantity = cart.quantity
+        cart.delete()
+        user_cart = get_user_carts(request)
+        context = {"carts": user_cart}
+        referer = request.META.get('HTTP_REFERER')
+        if reverse('orders:create_order') in referer:
+            context["order"] = True
+        cart_items_html = render_to_string(
+            "carts/includes/included_cart.html", context, request=request)
+        data = {
+            "message": "Item removed",
+            "cart_items_html": cart_items_html,
+            "quantity_deleted": quantity,
+        }
+        return JsonResponse(data)
