@@ -1,6 +1,9 @@
 .idea
 .vscode
 *.pyc
+db_data
+goods_images
+users_images
 venv
 __pycache__
 __pycache__/
