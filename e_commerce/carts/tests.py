@@ -7,7 +7,7 @@ from django.contrib.auth.models import AnonymousUser, User
 from django.http import JsonResponse
 from goods.models import Product
 from carts.models import Cart
-from .views import CartAddView, CartChangeView
+from .views import CartAddView, CartChangeView, CartRemoveView
 from goods.models import Category
 from django.core.files.base import ContentFile
 from users.models import User
@@ -110,5 +110,40 @@ class TestCartChangeView:
         request.user = user
 
         view = CartChangeView.as_view()
+        with pytest.raises(Cart.DoesNotExist):
+            view(request)
+
+
+@pytest.mark.django_db
+class TestCartRemoveView:
+
+    def test_cart_remove_view(self, user, cart, request_factory):
+        url = reverse('carts:cart_remove')
+        data = {'cart_id': cart.id}
+        request = request_factory.post(url, data)
+        request.user = user
+        request.META['HTTP_REFERER'] = 'http://testserver/'
+
+        view = CartRemoveView.as_view()
+        response = view(request)
+
+        assert response.status_code == 200
+        assert Cart.objects.filter(id=cart.id).count() == 0
+
+        response_data = response.content.decode('utf-8')
+        response_json = json.loads(response_data)
+
+        assert response_json['message'] == 'Item removed'
+        assert response_json['quantity_deleted'] == 1
+
+
+    def test_cart_remove_view_nonexistent_cart(self, user, request_factory):
+        url = reverse('carts:cart_remove')
+        data = {'cart_id': 7377}
+        request = request_factory.post(url, data)
+        request.user = user
+        request.META['HTTP_REFERER'] = 'http://testserver/'
+
+        view = CartRemoveView.as_view()
         with pytest.raises(Cart.DoesNotExist):
             view(request)
