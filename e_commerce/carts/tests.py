@@ -1,3 +1,5 @@
+import json
+
 import pytest
 from django.test import RequestFactory
 from django.contrib.sessions.middleware import SessionMiddleware
@@ -5,10 +7,11 @@ from django.contrib.auth.models import AnonymousUser, User
 from django.http import JsonResponse
 from goods.models import Product
 from carts.models import Cart
-from .views import CartAddView
+from .views import CartAddView, CartChangeView
 from goods.models import Category
 from django.core.files.base import ContentFile
 from users.models import User
+from django.urls import reverse
 
 
 @pytest.fixture
@@ -32,6 +35,10 @@ def user():
         password='12345',
         email='testuser@example.com'
     )
+
+@pytest.fixture
+def cart(user, product):
+    return Cart.objects.create(user=user, product=product, quantity=1)
 
 @pytest.fixture
 def request_factory():
@@ -68,3 +75,40 @@ class TestCartAddView:
         assert isinstance(response, JsonResponse)
         assert response.status_code == 200
         assert Cart.objects.filter(session_key=request.session.session_key, product=product).exists()
+
+
+@pytest.mark.django_db
+class TestCartChangeView:
+
+    def test_cart_change_view(self, request_factory, user, cart):
+        url = reverse('carts:cart_change')
+        data = {
+            'cart_id': cart.id,
+            'quantity': 3
+        }
+        request = request_factory.post(url, data=data)
+        request.user = user
+        request.META['HTTP_REFERER'] = reverse('orders:create_order')
+        view = CartChangeView.as_view()
+        response = view(request)
+        assert response.status_code == 200
+        json_response = json.loads(response.content.decode('utf-8'))
+        assert json_response['message'] == "Quantity changed"
+        assert 'cart_items_html' in json_response
+        assert json_response['quantity'] == '3'
+        cart.refresh_from_db()
+        assert cart.quantity == 3
+
+
+    def test_cart_change_view_invalid_cart_id(self, request_factory, user):
+        url = reverse('carts:cart_change')
+        data = {
+            'cart_id': 9999,
+            'quantity': 3
+        }
+        request = request_factory.post(url, data=data)
+        request.user = user
+
+        view = CartChangeView.as_view()
+        with pytest.raises(Cart.DoesNotExist):
+            view(request)
