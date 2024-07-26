@@ -23,3 +23,7 @@ typing_extensions==4.8.0
 tzdata==2023.3
 wcwidth==0.2.10
 pytest
+django-redis==5.4.0
+redis==5.0.7
+python-dotenv==1.0.1
+

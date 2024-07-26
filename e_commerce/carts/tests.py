@@ -1,5 +1,4 @@
 import json
-
 import pytest
 from django.test import RequestFactory
 from django.contrib.sessions.middleware import SessionMiddleware
@@ -28,6 +27,7 @@ def product():
     product.save()
     return product
 
+
 @pytest.fixture
 def user():
     return User.objects.create_user(
@@ -36,18 +36,22 @@ def user():
         email='testuser@example.com'
     )
 
+
 @pytest.fixture
 def cart(user, product):
     return Cart.objects.create(user=user, product=product, quantity=1)
+
 
 @pytest.fixture
 def request_factory():
     return RequestFactory()
 
+
 def add_session_to_request(request):
     middleware = SessionMiddleware(lambda x: None)
     middleware.process_request(request)
     request.session.save()
+
 
 @pytest.mark.django_db
 class TestCartAddView:
@@ -56,10 +60,8 @@ class TestCartAddView:
         request = request_factory.post('/', data={'product_id': product.id})
         request.user = user
         add_session_to_request(request)
-
         view = CartAddView.as_view()
         response = view(request)
-
         assert isinstance(response, JsonResponse)
         assert response.status_code == 200
         assert Cart.objects.filter(user=user, product=product).exists()
@@ -68,10 +70,8 @@ class TestCartAddView:
         request = request_factory.post('/', data={'product_id': product.id})
         request.user = AnonymousUser()
         add_session_to_request(request)
-
         view = CartAddView.as_view()
         response = view(request)
-
         assert isinstance(response, JsonResponse)
         assert response.status_code == 200
         assert Cart.objects.filter(session_key=request.session.session_key, product=product).exists()
@@ -103,12 +103,11 @@ class TestCartChangeView:
     def test_cart_change_view_invalid_cart_id(self, request_factory, user):
         url = reverse('carts:cart_change')
         data = {
-            'cart_id': 9999,
+            'cart_id': 8777,
             'quantity': 3
         }
         request = request_factory.post(url, data=data)
         request.user = user
-
         view = CartChangeView.as_view()
         with pytest.raises(Cart.DoesNotExist):
             view(request)
@@ -123,16 +122,12 @@ class TestCartRemoveView:
         request = request_factory.post(url, data)
         request.user = user
         request.META['HTTP_REFERER'] = 'http://testserver/'
-
         view = CartRemoveView.as_view()
         response = view(request)
-
         assert response.status_code == 200
         assert Cart.objects.filter(id=cart.id).count() == 0
-
         response_data = response.content.decode('utf-8')
         response_json = json.loads(response_data)
-
         assert response_json['message'] == 'Item removed'
         assert response_json['quantity_deleted'] == 1
 
@@ -143,7 +138,6 @@ class TestCartRemoveView:
         request = request_factory.post(url, data)
         request.user = user
         request.META['HTTP_REFERER'] = 'http://testserver/'
-
         view = CartRemoveView.as_view()
         with pytest.raises(Cart.DoesNotExist):
             view(request)

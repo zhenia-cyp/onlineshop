@@ -2,6 +2,9 @@ from goods.utils import q_search
 from goods.models import Product
 from django.http import Http404
 from django.views.generic import DetailView, ListView
+from django.core.cache import cache
+from django.conf import settings
+
 
 
 class CatalogView(ListView):
@@ -15,16 +18,20 @@ class CatalogView(ListView):
         on_sale = self.request.GET.get("on_sale")
         order_by = self.request.GET.get("order_by")
         query = self.request.GET.get("q")
-
+        cache_key = settings.CACHE_NAME
+        products_cache_name = cache.get(cache_key)
         if category_slug == "all-products":
-            goods = super().get_queryset()
+            if products_cache_name:
+                goods = products_cache_name
+            else:
+                goods = super().get_queryset()
+                cache.set(cache_key, goods, timeout=60*5)
         elif query:
             goods = q_search(query)
         else:
             goods = super().get_queryset().filter(category__slug=category_slug)
             if not goods.exists():
                 raise Http404()
-
         if on_sale:
             goods = goods.filter(discount__gt=0)
 

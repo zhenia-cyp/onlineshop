@@ -20,7 +20,8 @@ At present, the project's functionality includes:
 - Pagination
 - User registration and authentication
 - Orders
-<p>For testing, the pytest library is being used</p>
+- Query result caching with Redis
+- Pytest library
 
 ## Run the project using Docker
 
