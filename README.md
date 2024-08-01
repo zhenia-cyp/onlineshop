@@ -23,6 +23,11 @@ At present, the project's functionality includes:
 - Query result caching with Redis
 - Pytest library
 
+Technologies:
+Django 4.2
+Redis
+html/css/jquery
+
 ## Run the project using Docker
 
 <span style="font-size: 12px;">git clone https://github.com/zhenia-cyp/onlineshop.git</span>
